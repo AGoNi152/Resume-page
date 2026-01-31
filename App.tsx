@@ -16,36 +16,38 @@ const App: React.FC = () => {
   return (
     <>
       {/* === SCREEN VIEW === */}
-      <div className="min-h-screen flowing-bg flex items-center justify-center p-4 sm:p-8 overflow-hidden relative no-print">
+      <div className="min-h-screen flowing-bg flex items-center justify-center p-2 sm:p-8 overflow-hidden relative no-print">
         
         {/* Mobile Notice */}
-        <div className="lg:hidden absolute top-4 left-4 right-4 bg-white/90 p-4 rounded shadow text-xs text-center z-40">
-          {lang === 'en' ? 'Best viewed on desktop for book experience.' : '建议在桌面端浏览以获得最佳阅读体验。'}
+        <div className="lg:hidden absolute top-4 left-4 right-4 bg-white/90 p-3 rounded shadow text-[10px] text-center z-40 backdrop-blur-sm">
+          {lang === 'en' ? 'Swipe or scroll to view full resume.' : '建议在桌面端浏览获得翻页体验，手机端可直接下滑。'}
         </div>
 
         {/* Top Controls: Language & Print */}
-        <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-50 flex gap-3">
+        <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-50 flex gap-2 sm:gap-3">
            <button 
             onClick={handlePrint}
-            className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full shadow-lg hover:scale-105 transition-transform font-bold text-sm"
+            className="flex items-center gap-2 bg-white text-black px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-lg hover:scale-105 transition-transform font-bold text-xs sm:text-sm"
             title="Export PDF"
           >
-            <Download size={16} />
+            <Download size={14} className="sm:w-4 sm:h-4" />
             {lang === 'en' ? 'PDF' : '导出'}
           </button>
           <button 
             onClick={toggleLang}
-            className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-full shadow-lg hover:scale-105 transition-transform font-bold text-sm"
+            className="flex items-center gap-2 bg-black text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-lg hover:scale-105 transition-transform font-bold text-xs sm:text-sm"
           >
-            <Globe size={16} />
+            <Globe size={14} className="sm:w-4 sm:h-4" />
             {lang === 'en' ? 'CN' : 'EN'}
           </button>
         </div>
 
-        <div className="book-perspective book-container-wrapper relative w-full max-w-6xl h-[85vh] flex shadow-2xl rounded-lg overflow-hidden bg-neutral-900 transition-all duration-500">
+        {/* Book Container */}
+        {/* Changed bg-neutral-900 to bg-zinc-800 to match the lighter theme */}
+        <div className="book-perspective book-container-wrapper relative w-full max-w-6xl h-[90vh] sm:h-[85vh] flex shadow-2xl rounded-lg overflow-hidden bg-zinc-800 transition-all duration-500">
           
           {/* === LEFT SIDE (Desktop) === */}
-          <div className="w-1/2 h-full bg-neutral-900 text-white relative z-0 hidden lg:block border-r border-neutral-800">
+          <div className="w-1/2 h-full bg-zinc-800 text-white relative z-0 hidden lg:block border-r border-zinc-700">
              {currentPage === 0 ? <LeftPageContent1 lang={lang} /> : <LeftPageContent2 lang={lang} />}
           </div>
 
@@ -55,11 +57,13 @@ const App: React.FC = () => {
           </div>
 
           {/* === MOBILE VIEW === */}
-          <div className="lg:hidden w-full h-full bg-white overflow-y-auto">
-            <LeftPageContent1 mobile lang={lang} />
-            <div className="p-6"><RightPageContent1 lang={lang} /></div>
-            <div className="p-6 bg-neutral-50"><LeftPageContent2 lightMode lang={lang} /></div>
-            <div className="p-6"><RightPageContent2 lang={lang} /></div>
+          <div className="lg:hidden w-full h-full bg-white overflow-y-auto scroll-smooth">
+            <div className="min-h-[90vh] flex flex-col">
+              <LeftPageContent1 mobile lang={lang} />
+            </div>
+            <div className="p-4"><RightPageContent1 lang={lang} /></div>
+            <div className="p-0 bg-neutral-50"><LeftPageContent2 lightMode lang={lang} mobile /></div>
+            <div className="p-4"><RightPageContent2 lang={lang} /></div>
           </div>
 
           {/* Navigation Controls */}
@@ -84,7 +88,7 @@ const App: React.FC = () => {
               className={`pointer-events-auto flex items-center gap-2 px-6 py-2 rounded-full backdrop-blur-md transition-all ${
                 currentPage === 1 
                   ? 'bg-black/10 text-black/20 cursor-not-allowed' 
-                  : 'bg-neutral-900/10 text-neutral-900 hover:bg-neutral-900/20 hover:scale-105 shadow-lg border border-neutral-200'
+                  : 'bg-zinc-800/10 text-zinc-900 hover:bg-zinc-800/20 hover:scale-105 shadow-lg border border-neutral-200'
               }`}
             >
               {lang === 'en' ? 'Next' : '下一页'} <ChevronRight size={20} />
@@ -119,113 +123,124 @@ interface PageProps {
 
 // Helper to determine text colors based on mode
 const getTheme = (isDark: boolean) => ({
-  bg: isDark ? 'bg-neutral-900' : '',
+  // Updated to Lighter Gray (Zinc 800) with transparency for better visuals
+  bg: isDark ? 'bg-zinc-800/95 backdrop-blur-sm' : '', 
   text: isDark ? 'text-white' : 'text-neutral-900',
-  subtext: isDark ? 'text-neutral-400' : 'text-neutral-500',
-  border: isDark ? 'border-neutral-700' : 'border-neutral-200',
+  subtext: isDark ? 'text-zinc-400' : 'text-neutral-500',
+  border: isDark ? 'border-zinc-700' : 'border-neutral-200',
+  tagBg: isDark ? 'bg-zinc-700' : 'bg-neutral-100',
 });
 
 // SPREAD 1 LEFT: Profile
 const LeftPageContent1: React.FC<PageProps> = ({ mobile, print, lang }) => {
-  const isDark = (mobile || !print) && !print; // Dark only on mobile or Desktop Screen view
+  const isDark = (mobile || !print) && !print; 
   const theme = getTheme(isDark);
   
+  // Padding Logic: Standard for desktop, tighter for mobile
+  const pX = mobile ? 'px-5' : 'px-10';
+  const pTop = mobile ? 'pt-16' : 'pt-10'; // Extra top padding on mobile for "Best viewed" banner
+  
   return (
-    <div className={`h-full ${!print ? 'p-8 sm:p-12 overflow-y-auto no-scrollbar' : ''} ${theme.bg} ${theme.text}`}>
-      <div className="mb-10">
-        <h1 className="text-4xl font-bold mb-2 tracking-wider">{lang === 'en' ? 'Sheng Chenliang' : '盛宸亮'}</h1>
-        <p className={`${theme.subtext} text-sm uppercase tracking-widest mb-8`}>Sheng Chenliang</p>
+    <div className={`h-full relative overflow-y-auto no-scrollbar ${theme.bg} ${theme.text}`}>
+      
+      {/* --- Sticky Header Section --- */}
+      <div className={`sticky top-0 z-20 ${pX} ${pTop} pb-6 border-b transition-colors duration-300 ${isDark ? 'bg-zinc-800/95 border-zinc-700' : 'bg-white/95 border-neutral-100'} backdrop-blur-md`}>
+        <h1 className="text-3xl sm:text-4xl font-bold mb-2 tracking-wider">{lang === 'en' ? 'Sheng Chenliang' : '盛宸亮'}</h1>
+        <p className={`${theme.subtext} text-xs sm:text-sm uppercase tracking-widest mb-6`}>Sheng Chenliang</p>
         
-        <div className={`space-y-4 text-sm ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+        <div className={`space-y-3 text-xs sm:text-sm ${isDark ? 'text-zinc-300' : 'text-neutral-700'}`}>
           <div className="flex items-center gap-3">
-            <User size={16} />
+            <User size={14} className="shrink-0" />
             <span>{lang === 'en' ? '2004-04 / Male / Han' : '2004-04 / 男 / 汉族'}</span>
           </div>
           <div className="flex items-center gap-3">
-            <Phone size={16} />
+            <Phone size={14} className="shrink-0" />
             <span>17602199148</span>
           </div>
           <div className="flex items-center gap-3">
-            <Mail size={16} />
-            <a href="mailto:2023212716@mail.hfut.edu.cn" className="hover:underline transition-colors">
+            <Mail size={14} className="shrink-0" />
+            <a href="mailto:2023212716@mail.hfut.edu.cn" className="hover:underline transition-colors break-all">
               2023212716@mail.hfut.edu.cn
             </a>
           </div>
           <div className="flex items-center gap-3">
-            <MapPin size={16} />
+            <MapPin size={14} className="shrink-0" />
             <span>{lang === 'en' ? 'Hefei University of Technology' : '合肥工业大学'}</span>
           </div>
         </div>
       </div>
 
-      <div className="mb-10">
-        <h3 className={`text-lg font-semibold uppercase border-b pb-2 mb-4 ${theme.border}`}>
-          {lang === 'en' ? 'Education' : '教育经历'}
-        </h3>
-        <div className="mb-4">
-          <div className="font-bold text-lg">{lang === 'en' ? 'Hefei University of Technology (211)' : '合肥工业大学 (211)'}</div>
-          <div className={`${theme.subtext} italic mb-2 text-xs`}>{lang === 'en' ? '2023-09 - Present' : '2023-09 - 至今'}</div>
-          <div>{lang === 'en' ? 'International Economics and Trade' : '国际经济与贸易 (本科)'}</div>
-        </div>
-        
-        <div className={`text-xs ${theme.subtext} space-y-3 leading-relaxed`}>
-          <p>
-            <strong>{lang === 'en' ? 'Core Courses:' : '核心课程：'}</strong> 
-            {lang === 'en' 
-              ? ' Money & Banking (98.5), Linear Algebra (95), Political Economy (92), Economic Law, Accounting, Data Mining & MATLAB.'
-              : ' 货币银行学 (98.5)、线性代数 (95)、政治经济学 (92)、经济法、会计学、数据挖掘与MATLAB应用。'}
-          </p>
-          
-          <div className={`p-3 rounded border ${theme.border} ${isDark ? 'bg-neutral-800/50' : 'bg-neutral-50'}`}>
-            <strong className="block mb-2 flex items-center gap-2">
-               <Award size={14} /> {lang === 'en' ? 'Coursera Certifications' : 'Coursera 认证'}
-            </strong>
-            <ul className="space-y-2">
-              <li className="flex justify-between items-start">
-                <span>Python Basics (Univ. of Michigan)</span>
-                <a 
-                  href="https://coursera.org/verify/WJCC5KX00QO3" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="hover:underline flex items-center gap-1 opacity-80 hover:opacity-100"
-                >
-                  <ExternalLink size={10} />
-                </a>
-              </li>
-              <li className="flex justify-between items-start">
-                <span>Data Analysis with R</span>
-                <a 
-                  href="https://coursera.org/verify/E1X2QWXKPNAF" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="hover:underline flex items-center gap-1 opacity-80 hover:opacity-100"
-                >
-                  <ExternalLink size={10} />
-                </a>
-              </li>
-            </ul>
+      {/* --- Scrollable Content Section --- */}
+      <div className={`${pX} py-8`}>
+        <div className="mb-10">
+          <h3 className={`text-lg font-semibold uppercase border-b pb-2 mb-4 ${theme.border}`}>
+            {lang === 'en' ? 'Education' : '教育经历'}
+          </h3>
+          <div className="mb-4">
+            <div className="font-bold text-lg">{lang === 'en' ? 'Hefei University of Technology (211)' : '合肥工业大学 (211)'}</div>
+            <div className={`${theme.subtext} italic mb-2 text-xs`}>{lang === 'en' ? '2023-09 - Present' : '2023-09 - 至今'}</div>
+            <div>{lang === 'en' ? 'International Economics and Trade' : '国际经济与贸易 (本科)'}</div>
           </div>
-        </div>
-      </div>
-
-      <div>
-        <h3 className={`text-lg font-semibold uppercase border-b pb-2 mb-4 ${theme.border}`}>
-          {lang === 'en' ? 'Skills' : '相关技能'}
-        </h3>
-        <div className="space-y-4 text-sm">
-          <div>
-            <strong className={`block mb-2 ${isDark ? 'text-neutral-300' : 'text-neutral-800'}`}>{lang === 'en' ? 'Software' : '软件技能'}</strong>
-            <div className="flex flex-wrap gap-2">
-              {['R', 'Python', 'MATLAB', 'PPT', 'Excel'].map(skill => (
-                <span key={skill} className={`px-2 py-1 rounded text-xs border ${theme.border} ${isDark ? 'bg-neutral-800' : 'bg-neutral-100'}`}>
-                  {skill}
-                </span>
-              ))}
+          
+          <div className={`text-xs ${theme.subtext} space-y-3 leading-relaxed`}>
+            <p>
+              <strong>{lang === 'en' ? 'Core Courses:' : '核心课程：'}</strong> 
+              {lang === 'en' 
+                ? ' Money & Banking (98.5), Linear Algebra (95), Political Economy (92), Economic Law, Accounting, Data Mining & MATLAB.'
+                : ' 货币银行学 (98.5)、线性代数 (95)、政治经济学 (92)、经济法、会计学、数据挖掘与MATLAB应用。'}
+            </p>
+            
+            <div className={`p-3 rounded border ${theme.border} ${isDark ? 'bg-zinc-700/30' : 'bg-neutral-50'}`}>
+              <strong className="block mb-2 flex items-center gap-2">
+                 <Award size={14} /> {lang === 'en' ? 'Coursera Certifications' : 'Coursera 认证'}
+              </strong>
+              <ul className="space-y-2">
+                <li className="flex justify-between items-start">
+                  <span>Python Basics (Univ. of Michigan)</span>
+                  <a 
+                    href="https://coursera.org/verify/WJCC5KX00QO3" 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="hover:underline flex items-center gap-1 opacity-80 hover:opacity-100"
+                  >
+                    <ExternalLink size={10} />
+                  </a>
+                </li>
+                <li className="flex justify-between items-start">
+                  <span>Data Analysis with R</span>
+                  <a 
+                    href="https://coursera.org/verify/E1X2QWXKPNAF" 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="hover:underline flex items-center gap-1 opacity-80 hover:opacity-100"
+                  >
+                    <ExternalLink size={10} />
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
-          <div>
-            <strong className={`block mb-1 ${isDark ? 'text-neutral-300' : 'text-neutral-800'}`}>{lang === 'en' ? 'Interests' : '兴趣爱好'}</strong>
-            <p className={`text-xs ${theme.subtext}`}>{lang === 'en' ? 'Long-distance running, Photography, Debate' : '长跑、摄影、辩论'}</p>
+        </div>
+
+        <div>
+          <h3 className={`text-lg font-semibold uppercase border-b pb-2 mb-4 ${theme.border}`}>
+            {lang === 'en' ? 'Skills' : '相关技能'}
+          </h3>
+          <div className="space-y-4 text-sm">
+            <div>
+              <strong className={`block mb-2 ${isDark ? 'text-zinc-300' : 'text-neutral-800'}`}>{lang === 'en' ? 'Software' : '软件技能'}</strong>
+              <div className="flex flex-wrap gap-2">
+                {['R', 'Python', 'MATLAB', 'PPT', 'Excel'].map(skill => (
+                  <span key={skill} className={`px-2 py-1 rounded text-xs border ${theme.border} ${theme.tagBg}`}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <strong className={`block mb-1 ${isDark ? 'text-zinc-300' : 'text-neutral-800'}`}>{lang === 'en' ? 'Interests' : '兴趣爱好'}</strong>
+              <p className={`text-xs ${theme.subtext}`}>{lang === 'en' ? 'Long-distance running, Photography, Debate' : '长跑、摄影、辩论'}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -235,11 +250,11 @@ const LeftPageContent1: React.FC<PageProps> = ({ mobile, print, lang }) => {
 
 // SPREAD 1 RIGHT: Research
 const RightPageContent1: React.FC<PageProps> = ({ print, lang }) => (
-  <div className={`h-full ${!print ? 'p-8 sm:p-12 overflow-y-auto no-scrollbar' : ''}`}>
+  <div className={`h-full ${!print ? 'p-5 sm:p-10 overflow-y-auto no-scrollbar' : ''}`}>
     <Section title={lang === 'en' ? 'Research Experience' : '科研经历'}>
       {/* Research Item 1 */}
       <div className="relative border-l-2 border-neutral-200 pl-6 pb-8 last:pb-0 group hover:bg-neutral-50/50 transition-colors rounded-r-lg p-2 -ml-2">
-        <div className="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-neutral-200 border-2 border-white group-hover:bg-neutral-900 transition-colors"></div>
+        <div className="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-neutral-200 border-2 border-white group-hover:bg-zinc-800 transition-colors"></div>
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
           <h3 className="font-bold text-lg leading-tight w-full sm:w-3/4 text-neutral-900">
             Contract Design for Repurchasing Computational Power
@@ -280,7 +295,7 @@ const RightPageContent1: React.FC<PageProps> = ({ print, lang }) => (
 
       {/* Research Item 2 */}
       <div className="relative border-l-2 border-neutral-200 pl-6 group hover:bg-neutral-50/50 transition-colors rounded-r-lg p-2 -ml-2">
-         <div className="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-neutral-200 border-2 border-white group-hover:bg-neutral-900 transition-colors"></div>
+         <div className="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-neutral-200 border-2 border-white group-hover:bg-zinc-800 transition-colors"></div>
          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
           <h3 className="font-bold text-lg leading-tight w-full sm:w-3/4 text-neutral-900">
              {lang === 'en' ? 'Economic Analysis of Antibiotic Treatment Regimens' : '基于两阶段博弈DEA模型的抗生素治疗方案经济效益分析'}
@@ -314,12 +329,13 @@ const RightPageContent1: React.FC<PageProps> = ({ print, lang }) => (
 );
 
 // SPREAD 2 LEFT: Internship
-const LeftPageContent2: React.FC<PageProps> = ({ lightMode, print, lang }) => {
+const LeftPageContent2: React.FC<PageProps> = ({ lightMode, print, lang, mobile }) => {
   const isDark = (!lightMode && !print);
   const theme = getTheme(isDark);
+  const pX = mobile ? 'px-5' : 'px-10';
 
   return (
-    <div className={`h-full ${!print ? 'p-8 sm:p-12 overflow-y-auto no-scrollbar' : ''} ${theme.bg} ${theme.text}`}>
+    <div className={`h-full ${!print ? `${pX} py-10 overflow-y-auto no-scrollbar` : ''} ${theme.bg} ${theme.text}`}>
       <h2 className={`text-xl font-bold tracking-tight uppercase border-b-2 pb-2 mb-6 ${theme.border}`}>
         {lang === 'en' ? 'Internship Experience' : '实习经历'}
       </h2>
@@ -349,14 +365,14 @@ const LeftPageContent2: React.FC<PageProps> = ({ lightMode, print, lang }) => {
             </p>
           </div>
           <div className="mt-4">
-             <button className={`text-xs flex items-center gap-1 border px-2 py-1 rounded transition-colors ${isDark ? 'border-neutral-700 hover:bg-white hover:text-black' : 'border-neutral-300 hover:bg-black hover:text-white'}`}>
+             <button className={`text-xs flex items-center gap-1 border px-2 py-1 rounded transition-colors ${isDark ? 'border-zinc-600 hover:bg-white hover:text-black' : 'border-neutral-300 hover:bg-black hover:text-white'}`}>
                <FileText size={12} /> {lang === 'en' ? 'View Proof of Internship' : '查看实习证明'}
              </button>
           </div>
         </div>
 
         {/* Internship 2 */}
-        <div className={`relative border-t pt-6 ${isDark ? 'border-neutral-800' : 'border-neutral-200'}`}>
+        <div className={`relative border-t pt-6 ${theme.border}`}>
           <div className="flex justify-between items-baseline mb-2">
             <h3 className={`font-bold text-lg`}>
               {lang === 'en' ? 'NetEase News' : '网易新闻'}
@@ -379,7 +395,7 @@ const LeftPageContent2: React.FC<PageProps> = ({ lightMode, print, lang }) => {
             </p>
           </div>
            <div className="mt-4">
-             <button className={`text-xs flex items-center gap-1 border px-2 py-1 rounded transition-colors ${isDark ? 'border-neutral-700 hover:bg-white hover:text-black' : 'border-neutral-300 hover:bg-black hover:text-white'}`}>
+             <button className={`text-xs flex items-center gap-1 border px-2 py-1 rounded transition-colors ${isDark ? 'border-zinc-600 hover:bg-white hover:text-black' : 'border-neutral-300 hover:bg-black hover:text-white'}`}>
                <Award size={12} /> {lang === 'en' ? 'View Excellence Certificate' : '查看优秀证书'}
              </button>
           </div>
@@ -391,7 +407,7 @@ const LeftPageContent2: React.FC<PageProps> = ({ lightMode, print, lang }) => {
 
 // SPREAD 2 RIGHT: Campus & Awards
 const RightPageContent2: React.FC<PageProps> = ({ print, lang }) => (
-  <div className={`h-full ${!print ? 'p-8 sm:p-12 overflow-y-auto no-scrollbar' : ''}`}>
+  <div className={`h-full ${!print ? 'p-5 sm:p-10 overflow-y-auto no-scrollbar' : ''}`}>
     <Section title={lang === 'en' ? 'Campus Experience' : '校园经历'}>
       <div className="space-y-6">
         <div className="group">
