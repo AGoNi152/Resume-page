@@ -132,7 +132,7 @@ const LeftPageContent1: React.FC<PageProps> = ({ mobile, print, lang }) => {
   
   return (
     <div className={`h-full ${!print ? 'p-8 sm:p-12 overflow-y-auto no-scrollbar' : ''} ${theme.bg} ${theme.text}`}>
-      <div className="mb-8">
+      <div className="mb-10">
         <h1 className="text-4xl font-bold mb-2 tracking-wider">{lang === 'en' ? 'Sheng Chenliang' : '盛宸亮'}</h1>
         <p className={`${theme.subtext} text-sm uppercase tracking-widest mb-8`}>Sheng Chenliang</p>
         
@@ -147,7 +147,9 @@ const LeftPageContent1: React.FC<PageProps> = ({ mobile, print, lang }) => {
           </div>
           <div className="flex items-center gap-3">
             <Mail size={16} />
-            <span>2023212716@mail.hfut.edu.cn</span>
+            <a href="mailto:2023212716@mail.hfut.edu.cn" className="hover:underline transition-colors">
+              2023212716@mail.hfut.edu.cn
+            </a>
           </div>
           <div className="flex items-center gap-3">
             <MapPin size={16} />
@@ -156,7 +158,7 @@ const LeftPageContent1: React.FC<PageProps> = ({ mobile, print, lang }) => {
         </div>
       </div>
 
-      <div className="mb-8">
+      <div className="mb-10">
         <h3 className={`text-lg font-semibold uppercase border-b pb-2 mb-4 ${theme.border}`}>
           {lang === 'en' ? 'Education' : '教育经历'}
         </h3>
@@ -181,9 +183,25 @@ const LeftPageContent1: React.FC<PageProps> = ({ mobile, print, lang }) => {
             <ul className="space-y-2">
               <li className="flex justify-between items-start">
                 <span>Python Basics (Univ. of Michigan)</span>
+                <a 
+                  href="https://coursera.org/verify/WJCC5KX00QO3" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="hover:underline flex items-center gap-1 opacity-80 hover:opacity-100"
+                >
+                  <ExternalLink size={10} />
+                </a>
               </li>
               <li className="flex justify-between items-start">
                 <span>Data Analysis with R</span>
+                <a 
+                  href="https://coursera.org/verify/E1X2QWXKPNAF" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="hover:underline flex items-center gap-1 opacity-80 hover:opacity-100"
+                >
+                  <ExternalLink size={10} />
+                </a>
               </li>
             </ul>
           </div>
@@ -220,8 +238,8 @@ const RightPageContent1: React.FC<PageProps> = ({ print, lang }) => (
   <div className={`h-full ${!print ? 'p-8 sm:p-12 overflow-y-auto no-scrollbar' : ''}`}>
     <Section title={lang === 'en' ? 'Research Experience' : '科研经历'}>
       {/* Research Item 1 */}
-      <div className="relative border-l-2 border-neutral-200 pl-6 pb-8 last:pb-0 group">
-        <div className="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-neutral-200 border-2 border-white"></div>
+      <div className="relative border-l-2 border-neutral-200 pl-6 pb-8 last:pb-0 group hover:bg-neutral-50/50 transition-colors rounded-r-lg p-2 -ml-2">
+        <div className="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-neutral-200 border-2 border-white group-hover:bg-neutral-900 transition-colors"></div>
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
           <h3 className="font-bold text-lg leading-tight w-full sm:w-3/4 text-neutral-900">
             Contract Design for Repurchasing Computational Power
@@ -239,8 +257,8 @@ const RightPageContent1: React.FC<PageProps> = ({ print, lang }) => (
           <p>
             <strong className="text-neutral-900">{lang === 'en' ? 'Optimization Model:' : '模型优化：'}</strong>
             {lang === 'en' 
-              ? ' Designed a repurchase mechanism based on contract theory to address low GPU utilization (10-15%) in cloud computing.'
-              : ' 针对云计算行业 GPU 利用率仅 10-15% 的痛点，构建基于契约理论的回购机制。'}
+              ? ' Designed a repurchase mechanism based on contract theory to address low GPU utilization (10-15%) in cloud computing, incentivizing the release of idle power.'
+              : ' 针对云计算行业 GPU 利用率仅 10-15% 的痛点，构建基于契约理论的回购机制，激励现有客户释放闲置算力并再分配给新需求。'}
           </p>
           <p>
             <strong className="text-neutral-900">{lang === 'en' ? 'Contribution:' : '主要贡献：'}</strong>
@@ -249,14 +267,23 @@ const RightPageContent1: React.FC<PageProps> = ({ print, lang }) => (
               : ' 负责引言撰写与代码复现/验证。'}
           </p>
         </div>
+
+        <a 
+          href="https://arxiv.org/abs/2504.14823" 
+          target="_blank" 
+          rel="noreferrer"
+          className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-neutral-900 border-b border-neutral-900 pb-0.5 hover:text-neutral-600 hover:border-neutral-600 transition-colors"
+        >
+          {lang === 'en' ? 'View Paper' : '查看论文'} <ExternalLink size={12} />
+        </a>
       </div>
 
       {/* Research Item 2 */}
-      <div className="relative border-l-2 border-neutral-200 pl-6">
-         <div className="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-neutral-200 border-2 border-white"></div>
+      <div className="relative border-l-2 border-neutral-200 pl-6 group hover:bg-neutral-50/50 transition-colors rounded-r-lg p-2 -ml-2">
+         <div className="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-neutral-200 border-2 border-white group-hover:bg-neutral-900 transition-colors"></div>
          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
           <h3 className="font-bold text-lg leading-tight w-full sm:w-3/4 text-neutral-900">
-             {lang === 'en' ? 'Economic Analysis of Antibiotic Treatment Regimens' : '抗生素治疗方案经济效益分析'}
+             {lang === 'en' ? 'Economic Analysis of Antibiotic Treatment Regimens' : '基于两阶段博弈DEA模型的抗生素治疗方案经济效益分析'}
           </h3>
           <span className="text-xs font-mono text-neutral-500 mt-1 sm:mt-0 bg-neutral-100 px-2 py-1 rounded">
             2025.06 - {lang === 'en' ? 'Present' : '至今'}
@@ -271,14 +298,14 @@ const RightPageContent1: React.FC<PageProps> = ({ print, lang }) => (
           <p>
             <strong className="text-neutral-900">{lang === 'en' ? 'Framework:' : '框架设计：'}</strong> 
             {lang === 'en' 
-              ? ' Integrated 7 key indicators into a two-stage BCC game DEA model to evaluate 10 antibiotic regimens.'
-              : ' 将临床治愈率、住院天数等 7 项指标纳入两阶段 BCC 博弈 DEA 模型。'}
+              ? ' Integrated 7 key indicators (clinical cure rate, length of stay, adverse reaction costs) into a two-stage BCC game DEA model to evaluate 10 antibiotic regimens.'
+              : ' 将临床治愈率、住院天数、不良反应成本等 7 项关键指标纳入两阶段 BCC 博弈 DEA 模型，把 10 种抗生素方案转化为可比较的效率前沿。'}
           </p>
           <p>
             <strong className="text-neutral-900">{lang === 'en' ? 'Data Insight:' : '数据洞察：'}</strong> 
             {lang === 'en' 
-              ? ' Performed 1,000 Monte Carlo simulations using MATLAB to quantify parameter uncertainty.'
-              : ' 用 MATLAB 完成 1,000 次蒙特卡洛模拟，量化参数不确定性，锁定 3 个稳健方案。'}
+              ? ' Performed 1,000 Monte Carlo simulations using MATLAB to quantify parameter uncertainty. Identified 3 robust "high-efficacy, low-cost" regimens.'
+              : ' 用 MATLAB 完成 1,000 次蒙特卡洛模拟，量化参数不确定性，锁定达托霉素等 3 个“高疗效-低成本”稳健方案，为剩余 19 种方案给出 ROI 排序。'}
           </p>
         </div>
       </div>
@@ -312,9 +339,19 @@ const LeftPageContent2: React.FC<PageProps> = ({ lightMode, print, lang }) => {
           <div className={`text-sm space-y-2 opacity-80 leading-relaxed text-justify`}>
             <p>
               {lang === 'en' 
-                ? 'Actively participated in center research activities. Mainly responsible for in-depth review and analysis of pharmacoeconomics literature.'
-                : '参与中心研究活动。主要负责药物经济学文献的深度综述与分析，关键研究方法的提炼。'}
+                ? 'Actively participated in center research activities. Mainly responsible for in-depth review and analysis of pharmacoeconomics literature, refinement of key research methods.'
+                : '参与中心研究活动。主要负责药物经济学文献的深度综述与分析，关键研究方法的提炼及准确报告。'}
             </p>
+            <p>
+              {lang === 'en' 
+                ? 'Demonstrated solid professional knowledge in applying experimental techniques and data analysis methods. Deepened understanding of pharmacoeconomics theoretical knowledge.'
+                : '在应用实验技术和数据分析方法方面表现出扎实的专业知识。加深了对药物经济学理论知识的理解，积累了宝贵的实践经验。'}
+            </p>
+          </div>
+          <div className="mt-4">
+             <button className={`text-xs flex items-center gap-1 border px-2 py-1 rounded transition-colors ${isDark ? 'border-neutral-700 hover:bg-white hover:text-black' : 'border-neutral-300 hover:bg-black hover:text-white'}`}>
+               <FileText size={12} /> {lang === 'en' ? 'View Proof of Internship' : '查看实习证明'}
+             </button>
           </div>
         </div>
 
@@ -332,14 +369,19 @@ const LeftPageContent2: React.FC<PageProps> = ({ lightMode, print, lang }) => {
           <div className={`text-sm space-y-2 opacity-80 leading-relaxed text-justify`}>
             <p>
               {lang === 'en' 
-                ? 'Participated in the "School Creator" activity. Responsible for planning and external dissemination.'
-                : '参与“校园创作者”活动。负责“网易小蜜蜂”特色内容的策划与对外传播。'}
+                ? 'Participated in the "School Creator" activity organized by NetEase News. Responsible for planning and external dissemination of "NetEase Little Bee" characteristic content.'
+                : '参与网易新闻举办的“校园创作者”活动。负责“网易小蜜蜂”特色内容的策划与对外传播。'}
             </p>
             <p>
               {lang === 'en' 
-                ? <span><strong>Achievement:</strong> Created original contents (130k+ reads). Awarded "Project Practice Excellence".</span>
-                : <span><strong>成果：</strong> 独立创作优质内容（累计阅读 13w+）。荣获“项目实践优秀证明”。</span>}
+                ? <span><strong>Achievement:</strong> Independently created multiple high-quality original contents (130k+ total reads, 50k+ single post peak). Awarded "Project Practice Excellence Certificate".</span>
+                : <span><strong>成果：</strong> 独立创作多条优质原创内容（累计阅读 13w+，单条最高 5w+）。荣获“项目实践优秀证明”。</span>}
             </p>
+          </div>
+           <div className="mt-4">
+             <button className={`text-xs flex items-center gap-1 border px-2 py-1 rounded transition-colors ${isDark ? 'border-neutral-700 hover:bg-white hover:text-black' : 'border-neutral-300 hover:bg-black hover:text-white'}`}>
+               <Award size={12} /> {lang === 'en' ? 'View Excellence Certificate' : '查看优秀证书'}
+             </button>
           </div>
         </div>
       </div>
@@ -354,25 +396,27 @@ const RightPageContent2: React.FC<PageProps> = ({ print, lang }) => (
       <div className="space-y-6">
         <div className="group">
           <div className="flex justify-between items-baseline mb-1">
-            <h3 className="font-bold text-lg">
-              {lang === 'en' ? 'School New Media Center' : '新媒体中心运营部'}
+            <h3 className="font-bold text-lg group-hover:text-blue-600 transition-colors">
+              {lang === 'en' ? 'School New Media Center' : '经济学院新媒体中心运营部'}
             </h3>
             <span className="text-sm text-neutral-500">{lang === 'en' ? 'Director' : '负责人'}</span>
           </div>
           <div className="text-sm text-neutral-600 space-y-1">
-            <p>• {lang === 'en' ? 'Managed official accounts (100k+ reads).' : '运营学院官方账号，累计阅读量 10万+。'}</p>
+            <p>• <strong>{lang === 'en' ? 'Operations:' : '平台运营：'}</strong> {lang === 'en' ? 'Managed official accounts. Published 100+ posts with 100k+ total reads.' : '运营学院官方公众号/视频号。累计发布推文 100+，阅读量 10万+。'}</p>
+            <p>• <strong>{lang === 'en' ? 'Impact:' : '内容策划：'}</strong> {lang === 'en' ? 'Led the center to rank 1st in the university\'s online political education assessment.' : '助力中心获全校网络思政教育考核第一。'}</p>
           </div>
         </div>
 
         <div className="group">
           <div className="flex justify-between items-baseline mb-1">
-            <h3 className="font-bold text-lg">
-              {lang === 'en' ? 'Debate Team' : '辩论队'}
+            <h3 className="font-bold text-lg group-hover:text-blue-600 transition-colors">
+              {lang === 'en' ? 'Speech & Debate Association' : '演讲与口才协会辩论队'}
             </h3>
             <span className="text-sm text-neutral-500">{lang === 'en' ? 'Team Leader' : '负责人'}</span>
           </div>
           <div className="text-sm text-neutral-600 space-y-1">
-             <p>• {lang === 'en' ? 'University Debate Champion.' : '合肥工业大学校辩论赛冠军。'}</p>
+             <p>• <strong>{lang === 'en' ? 'Honors:' : '荣誉：'}</strong> {lang === 'en' ? 'University Debate Champion (vs 20 teams), "Capybara Cup" Online Debate Champion & Best Debater (vs 48 teams).' : '合肥工业大学校辩论赛冠军（20队）、卡皮巴拉杯网络辩论赛冠军暨单场最佳辩手（48队）。'}</p>
+             <p>• <strong>{lang === 'en' ? 'Leadership:' : '队伍建设：'}</strong> {lang === 'en' ? 'Trained 100+ members in argumentation and research skills.' : '负责技能培训，指导立论与资料搜索，培训人数 100+。'}</p>
           </div>
         </div>
       </div>
@@ -381,27 +425,48 @@ const RightPageContent2: React.FC<PageProps> = ({ print, lang }) => (
     <Section title={lang === 'en' ? 'Certificates & Awards' : '荣誉证书'} className="mb-0">
       <div className="grid grid-cols-1 gap-4">
         {/* Awards */}
-        <div className="border border-neutral-200 rounded p-3 bg-white">
+        <div className="border border-neutral-200 rounded p-3 bg-white hover:border-black transition-colors">
           <div className="flex flex-col gap-1">
             <h4 className="font-bold text-sm leading-tight">
-              {lang === 'en' ? 'Int\'l Trade Skills Competition - First Prize' : '国贸综合技能大赛 - 一等奖'}
+              {lang === 'en' 
+                ? 'Anhui College Students Int\'l Trade Comprehensive Skills Competition - First Prize' 
+                : '安徽省大学生国际贸易综合技能大赛 - 一等奖'}
             </h4>
+            <div className="flex justify-between items-end mt-1 text-xs text-neutral-500">
+               <span>
+                 {lang === 'en' ? 'Dept. of Education of Anhui' : '安徽省教育厅'} • Feb 2025
+               </span>
+               <span className="bg-neutral-100 text-neutral-700 px-1.5 py-0.5 rounded">
+                 {lang === 'en' ? 'Team Member (2nd)' : '团队成员 (第二顺位)'}
+               </span>
+            </div>
           </div>
         </div>
 
-        <div className="border border-neutral-200 rounded p-3 bg-white">
+        <div className="border border-neutral-200 rounded p-3 bg-white hover:border-black transition-colors">
           <div className="flex flex-col gap-1">
             <h4 className="font-bold text-sm leading-tight">
-              {lang === 'en' ? 'Business Negotiation Competition - First Prize' : '商务模拟谈判大赛 - 一等奖'}
+              {lang === 'en' 
+                ? 'The 8th Anhui College Students Int\'l Business Simulated Negotiation Competition - First Prize' 
+                : '第八届安徽省大学生国际商务模拟谈判大赛 - 一等奖'}
             </h4>
+            <div className="flex justify-between items-end mt-1 text-xs text-neutral-500">
+               <span>
+                 {lang === 'en' ? 'Dept. of Education of Anhui' : '安徽省教育厅'} • Dec 2025
+               </span>
+               <span className="bg-neutral-100 text-neutral-700 px-1.5 py-0.5 rounded">
+                 {lang === 'en' ? 'Team Member (2nd)' : '团队成员 (第二顺位)'}
+               </span>
+            </div>
           </div>
         </div>
 
         {/* IELTS Card */}
-        <div className="border border-neutral-200 rounded p-4 bg-neutral-50">
+        <div className="border border-neutral-200 rounded p-4 bg-neutral-50 hover:shadow-md transition-shadow">
           <div className="flex justify-between items-start mb-2">
             <div>
               <h4 className="font-bold text-neutral-900">IELTS Academic</h4>
+              <span className="text-xs text-neutral-500">Dec 21, 2025</span>
             </div>
             <div className="bg-black text-white text-xs font-bold px-2 py-1 rounded">
               7.0
@@ -413,6 +478,19 @@ const RightPageContent2: React.FC<PageProps> = ({ print, lang }) => (
             <div><span className="block font-bold">6.5</span>S</div>
             <div><span className="block font-bold">6.5</span>W</div>
           </div>
+        </div>
+
+        {/* Other Awards List */}
+        <div className="border border-neutral-200 rounded p-4">
+          <ul className="space-y-3 text-sm">
+            <li className="flex items-start gap-2">
+              <Award size={16} className="mt-0.5 text-yellow-600 shrink-0" />
+              <span>
+                <strong className="block text-neutral-900">{lang === 'en' ? 'Project Practice Excellence Award' : '项目实践优秀证明'}</strong>
+                <span className="text-neutral-500 text-xs">{lang === 'en' ? 'NetEase News • Oct 2025' : '网易新闻 • 2025.10'}</span>
+              </span>
+            </li>
+          </ul>
         </div>
       </div>
     </Section>
