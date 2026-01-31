@@ -131,6 +131,35 @@ const getTheme = (isDark: boolean) => ({
   tagBg: isDark ? 'bg-zinc-700' : 'bg-neutral-100',
 });
 
+// Reusable Header Component
+const ProfileHeader: React.FC<{ lang: Language; theme: any; isDark: boolean; pX: string; pTop: string }> = ({ lang, theme, isDark, pX, pTop }) => (
+  <div className={`sticky top-0 z-20 ${pX} ${pTop} pb-6 border-b transition-colors duration-300 ${isDark ? 'bg-zinc-800/95 border-zinc-700' : 'bg-white/95 border-neutral-100'} backdrop-blur-md`}>
+    <h1 className="text-3xl sm:text-4xl font-bold mb-2 tracking-wider">{lang === 'en' ? 'Sheng Chenliang' : '盛宸亮'}</h1>
+    <p className={`${theme.subtext} text-xs sm:text-sm uppercase tracking-widest mb-6`}>Sheng Chenliang</p>
+    
+    <div className={`space-y-3 text-xs sm:text-sm ${isDark ? 'text-zinc-300' : 'text-neutral-700'}`}>
+      <div className="flex items-center gap-3">
+        <User size={14} className="shrink-0" />
+        <span>{lang === 'en' ? '2004-04 / Male / Han' : '2004-04 / 男 / 汉族'}</span>
+      </div>
+      <div className="flex items-center gap-3">
+        <Phone size={14} className="shrink-0" />
+        <span>17602199148</span>
+      </div>
+      <div className="flex items-center gap-3">
+        <Mail size={14} className="shrink-0" />
+        <a href="mailto:2023212716@mail.hfut.edu.cn" className="hover:underline transition-colors break-all">
+          2023212716@mail.hfut.edu.cn
+        </a>
+      </div>
+      <div className="flex items-center gap-3">
+        <MapPin size={14} className="shrink-0" />
+        <span>{lang === 'en' ? 'Hefei University of Technology' : '合肥工业大学'}</span>
+      </div>
+    </div>
+  </div>
+);
+
 // SPREAD 1 LEFT: Profile
 const LeftPageContent1: React.FC<PageProps> = ({ mobile, print, lang }) => {
   const isDark = (mobile || !print) && !print; 
@@ -144,31 +173,7 @@ const LeftPageContent1: React.FC<PageProps> = ({ mobile, print, lang }) => {
     <div className={`h-full relative overflow-y-auto no-scrollbar ${theme.bg} ${theme.text}`}>
       
       {/* --- Sticky Header Section --- */}
-      <div className={`sticky top-0 z-20 ${pX} ${pTop} pb-6 border-b transition-colors duration-300 ${isDark ? 'bg-zinc-800/95 border-zinc-700' : 'bg-white/95 border-neutral-100'} backdrop-blur-md`}>
-        <h1 className="text-3xl sm:text-4xl font-bold mb-2 tracking-wider">{lang === 'en' ? 'Sheng Chenliang' : '盛宸亮'}</h1>
-        <p className={`${theme.subtext} text-xs sm:text-sm uppercase tracking-widest mb-6`}>Sheng Chenliang</p>
-        
-        <div className={`space-y-3 text-xs sm:text-sm ${isDark ? 'text-zinc-300' : 'text-neutral-700'}`}>
-          <div className="flex items-center gap-3">
-            <User size={14} className="shrink-0" />
-            <span>{lang === 'en' ? '2004-04 / Male / Han' : '2004-04 / 男 / 汉族'}</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Phone size={14} className="shrink-0" />
-            <span>17602199148</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Mail size={14} className="shrink-0" />
-            <a href="mailto:2023212716@mail.hfut.edu.cn" className="hover:underline transition-colors break-all">
-              2023212716@mail.hfut.edu.cn
-            </a>
-          </div>
-          <div className="flex items-center gap-3">
-            <MapPin size={14} className="shrink-0" />
-            <span>{lang === 'en' ? 'Hefei University of Technology' : '合肥工业大学'}</span>
-          </div>
-        </div>
-      </div>
+      <ProfileHeader lang={lang} theme={theme} isDark={isDark} pX={pX} pTop={pTop} />
 
       {/* --- Scrollable Content Section --- */}
       <div className={`${pX} py-8`}>
@@ -333,71 +338,78 @@ const LeftPageContent2: React.FC<PageProps> = ({ lightMode, print, lang, mobile 
   const isDark = (!lightMode && !print);
   const theme = getTheme(isDark);
   const pX = mobile ? 'px-5' : 'px-10';
+  const pTop = mobile ? 'pt-16' : 'pt-10'; // Keep top padding consistent with Page 1 for header
 
   return (
-    <div className={`h-full ${!print ? `${pX} py-10 overflow-y-auto no-scrollbar` : ''} ${theme.bg} ${theme.text}`}>
-      <h2 className={`text-xl font-bold tracking-tight uppercase border-b-2 pb-2 mb-6 ${theme.border}`}>
-        {lang === 'en' ? 'Internship Experience' : '实习经历'}
-      </h2>
+    <div className={`h-full relative overflow-y-auto no-scrollbar ${theme.bg} ${theme.text}`}>
+       
+       {/* --- Sticky Header Section (Reused here) --- */}
+      <ProfileHeader lang={lang} theme={theme} isDark={isDark} pX={pX} pTop={pTop} />
 
-      <div className="space-y-8">
-        {/* Internship 1 */}
-        <div className="relative">
-          <div className="flex justify-between items-baseline mb-2">
-            <h3 className={`font-bold text-lg`}>
-              {lang === 'en' ? 'Shanghai Univ. of TCM' : '上海中医药大学'}
-            </h3>
-            <span className={`text-xs font-mono opacity-60`}>2025.01 - 2025.02</span>
-          </div>
-          <div className="mb-3 text-sm font-medium text-blue-400">
-            {lang === 'en' ? 'Center for Quantitative Pharmacology | Research Assistant' : '药物临床研究中心 | 研究助理'}
-          </div>
-          <div className={`text-sm space-y-2 opacity-80 leading-relaxed text-justify`}>
-            <p>
-              {lang === 'en' 
-                ? 'Actively participated in center research activities. Mainly responsible for in-depth review and analysis of pharmacoeconomics literature, refinement of key research methods.'
-                : '参与中心研究活动。主要负责药物经济学文献的深度综述与分析，关键研究方法的提炼及准确报告。'}
-            </p>
-            <p>
-              {lang === 'en' 
-                ? 'Demonstrated solid professional knowledge in applying experimental techniques and data analysis methods. Deepened understanding of pharmacoeconomics theoretical knowledge.'
-                : '在应用实验技术和数据分析方法方面表现出扎实的专业知识。加深了对药物经济学理论知识的理解，积累了宝贵的实践经验。'}
-            </p>
-          </div>
-          <div className="mt-4">
-             <button className={`text-xs flex items-center gap-1 border px-2 py-1 rounded transition-colors ${isDark ? 'border-zinc-600 hover:bg-white hover:text-black' : 'border-neutral-300 hover:bg-black hover:text-white'}`}>
-               <FileText size={12} /> {lang === 'en' ? 'View Proof of Internship' : '查看实习证明'}
-             </button>
-          </div>
-        </div>
+      <div className={`${pX} py-8`}>
+        <h2 className={`text-xl font-bold tracking-tight uppercase border-b-2 pb-2 mb-6 ${theme.border}`}>
+          {lang === 'en' ? 'Internship Experience' : '实习经历'}
+        </h2>
 
-        {/* Internship 2 */}
-        <div className={`relative border-t pt-6 ${theme.border}`}>
-          <div className="flex justify-between items-baseline mb-2">
-            <h3 className={`font-bold text-lg`}>
-              {lang === 'en' ? 'NetEase News' : '网易新闻'}
-            </h3>
-            <span className={`text-xs font-mono opacity-60`}>2025.09 - 2025.10</span>
+        <div className="space-y-8">
+          {/* Internship 1 */}
+          <div className="relative">
+            <div className="flex justify-between items-baseline mb-2">
+              <h3 className={`font-bold text-lg`}>
+                {lang === 'en' ? 'Shanghai Univ. of TCM' : '上海中医药大学'}
+              </h3>
+              <span className={`text-xs font-mono opacity-60`}>2025.01 - 2025.02</span>
+            </div>
+            <div className="mb-3 text-sm font-medium text-blue-400">
+              {lang === 'en' ? 'Center for Quantitative Pharmacology | Research Assistant' : '药物临床研究中心 | 研究助理'}
+            </div>
+            <div className={`text-sm space-y-2 opacity-80 leading-relaxed text-justify`}>
+              <p>
+                {lang === 'en' 
+                  ? 'Actively participated in center research activities. Mainly responsible for in-depth review and analysis of pharmacoeconomics literature, refinement of key research methods.'
+                  : '参与中心研究活动。主要负责药物经济学文献的深度综述与分析，关键研究方法的提炼及准确报告。'}
+              </p>
+              <p>
+                {lang === 'en' 
+                  ? 'Demonstrated solid professional knowledge in applying experimental techniques and data analysis methods. Deepened understanding of pharmacoeconomics theoretical knowledge.'
+                  : '在应用实验技术和数据分析方法方面表现出扎实的专业知识。加深了对药物经济学理论知识的理解，积累了宝贵的实践经验。'}
+              </p>
+            </div>
+            <div className="mt-4">
+              <button className={`text-xs flex items-center gap-1 border px-2 py-1 rounded transition-colors ${isDark ? 'border-zinc-600 hover:bg-white hover:text-black' : 'border-neutral-300 hover:bg-black hover:text-white'}`}>
+                <FileText size={12} /> {lang === 'en' ? 'View Proof of Internship' : '查看实习证明'}
+              </button>
+            </div>
           </div>
-          <div className="mb-3 text-sm font-medium text-red-400">
-             {lang === 'en' ? 'Content Operations | Project Lead' : '内容运营 | 校园创作者负责人'}
-          </div>
-          <div className={`text-sm space-y-2 opacity-80 leading-relaxed text-justify`}>
-            <p>
-              {lang === 'en' 
-                ? 'Participated in the "School Creator" activity organized by NetEase News. Responsible for planning and external dissemination of "NetEase Little Bee" characteristic content.'
-                : '参与网易新闻举办的“校园创作者”活动。负责“网易小蜜蜂”特色内容的策划与对外传播。'}
-            </p>
-            <p>
-              {lang === 'en' 
-                ? <span><strong>Achievement:</strong> Independently created multiple high-quality original contents (130k+ total reads, 50k+ single post peak). Awarded "Project Practice Excellence Certificate".</span>
-                : <span><strong>成果：</strong> 独立创作多条优质原创内容（累计阅读 13w+，单条最高 5w+）。荣获“项目实践优秀证明”。</span>}
-            </p>
-          </div>
-           <div className="mt-4">
-             <button className={`text-xs flex items-center gap-1 border px-2 py-1 rounded transition-colors ${isDark ? 'border-zinc-600 hover:bg-white hover:text-black' : 'border-neutral-300 hover:bg-black hover:text-white'}`}>
-               <Award size={12} /> {lang === 'en' ? 'View Excellence Certificate' : '查看优秀证书'}
-             </button>
+
+          {/* Internship 2 */}
+          <div className={`relative border-t pt-6 ${theme.border}`}>
+            <div className="flex justify-between items-baseline mb-2">
+              <h3 className={`font-bold text-lg`}>
+                {lang === 'en' ? 'NetEase News' : '网易新闻'}
+              </h3>
+              <span className={`text-xs font-mono opacity-60`}>2025.09 - 2025.10</span>
+            </div>
+            <div className="mb-3 text-sm font-medium text-red-400">
+              {lang === 'en' ? 'Content Operations | Project Lead' : '内容运营 | 校园创作者负责人'}
+            </div>
+            <div className={`text-sm space-y-2 opacity-80 leading-relaxed text-justify`}>
+              <p>
+                {lang === 'en' 
+                  ? 'Participated in the "School Creator" activity organized by NetEase News. Responsible for planning and external dissemination of "NetEase Little Bee" characteristic content.'
+                  : '参与网易新闻举办的“校园创作者”活动。负责“网易小蜜蜂”特色内容的策划与对外传播。'}
+              </p>
+              <p>
+                {lang === 'en' 
+                  ? <span><strong>Achievement:</strong> Independently created multiple high-quality original contents (130k+ total reads, 50k+ single post peak). Awarded "Project Practice Excellence Certificate".</span>
+                  : <span><strong>成果：</strong> 独立创作多条优质原创内容（累计阅读 13w+，单条最高 5w+）。荣获“项目实践优秀证明”。</span>}
+              </p>
+            </div>
+            <div className="mt-4">
+              <button className={`text-xs flex items-center gap-1 border px-2 py-1 rounded transition-colors ${isDark ? 'border-zinc-600 hover:bg-white hover:text-black' : 'border-neutral-300 hover:bg-black hover:text-white'}`}>
+                <Award size={12} /> {lang === 'en' ? 'View Excellence Certificate' : '查看优秀证书'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
